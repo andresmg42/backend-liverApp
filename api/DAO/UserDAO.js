@@ -42,6 +42,22 @@ class UserDAO {
     }
   }
 
+  getByEmail=async (req,res)=>{
+    try {
+      const document= new this.model(req.body)
+      console.log(document.email)
+      const item=await this.model.findOne({email:document.email})
+      if(!item) {
+        res.status(404).json({message:'user not found'});
+        return;
+      }
+      res.status(200).json(item)
+    } catch (error) {
+       res.status(500).json({ message: error.message })
+      
+    }
+  }
+
   update = async (req, res) => {
     try {
       const item = await this.model.findByIdAndUpdate(req.params.id, req.body, {
