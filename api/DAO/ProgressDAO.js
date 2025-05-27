@@ -45,7 +45,7 @@ class ProgressDAO {
         quiz_id: quizId,
         sections_progress: [sectionProgress],
         total_score: score,
-        completed: totalQuestions === score,
+        completed: true,
       });
       await newProgress.save();
     }
@@ -58,6 +58,9 @@ class ProgressDAO {
 
         const {user_id,quiz_id,section_slug,answers}=req.body;
 
+        console.log('user_id:',user_id)
+        console.log('quiz_id:',quiz_id)
+
         await this.saveProgress(user_id,quiz_id,section_slug,answers);
 
         res.status(201).json({message:'progreso guardado'});
@@ -68,12 +71,12 @@ class ProgressDAO {
     }
   };
 
-  getProgressById=async (req,res)=>{
+  getProgressByUserId=async (req,res)=>{
     try {
-        const {userId,quizId}=req.params;
+        const {userId,quizId}=req.query;
 
-        console.log(userId)
-        console.log(quizId)
+        // console.log(typeof userId)
+        // console.log(typeof quizId)
 
     const progress= await this.model.findOne({user_id:userId,quiz_id:quizId})
     if(!progress){
