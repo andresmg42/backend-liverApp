@@ -62,10 +62,10 @@ class ProgressDAO {
         // console.log(typeof quizId)
 
     const progress= await this.model.findOne({user_id:userId,quiz_id:quizId})
-    if(!progress){
-        res.status(400).json({message:'progress not found'})
-        return;
-    }
+    // if(!progress){
+    //     res.status(200).json({})
+    //     return;
+    // }
     res.status(200).json(progress)
     } catch (error) {
         res.status(500).json({message:`Error find progress by id: ${error}`})
