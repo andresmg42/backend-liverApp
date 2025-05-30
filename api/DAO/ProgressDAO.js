@@ -5,7 +5,7 @@ class ProgressDAO {
     this.model = QuizProgress;
   }
 
-  saveProgress = async (userId, quizId, sectionSlug, answersArray) => {
+  saveProgress = async (userId, quizId, answersArray) => {
     const totalQuestions = answersArray.length;
     const score = answersArray.filter((a) => a.correct).length;
 
@@ -14,38 +14,21 @@ class ProgressDAO {
       quiz_id: quizId,
     });
 
-    const sectionProgress = {
-      slug: sectionSlug,
-      score,
-      total_questions: totalQuestions,
-      completed: true,
-      answers: answersArray,
-    };
+    
 
     if (progress) {
-      const index = progress.sections_progress.findIndex(
-        (s) => s.slug === sectionSlug
-      );
-      if (index >= 0) {
-        progress.sections_progress[index] = sectionProgress;
-      } else {
-        progress.sections_progress.push(sectionProgress);
-      }
-
-      progress.total_score = progress.sections_progress.reduce(
-        (sum, s) => sum + s.score,
-        0
-      );
-      progress.completed = progress.sections_progress.every((s) => s.completed);
+      progress.total_score += score
+      progress.completed = totalQuestions===15;
       progress.last_updated = new Date();
+      progress.answers=[...progress.answers,...answersArray];
       await progress.save();
     } else {
       const newProgress = new QuizProgress({
         user_id: userId,
         quiz_id: quizId,
-        sections_progress: [sectionProgress],
+        answers:answersArray,
         total_score: score,
-        completed: true,
+        completed: totalQuestions===15,
       });
       await newProgress.save();
     }
@@ -56,12 +39,12 @@ class ProgressDAO {
   save = async (req, res) => {
     try {
 
-        const {user_id,quiz_id,section_slug,answers}=req.body;
+        const {user_id,quiz_id,answers}=req.body;
 
         console.log('user_id:',user_id)
         console.log('quiz_id:',quiz_id)
 
-        await this.saveProgress(user_id,quiz_id,section_slug,answers);
+        await this.saveProgress(user_id,quiz_id,answers);
 
         res.status(201).json({message:'progreso guardado'});
 

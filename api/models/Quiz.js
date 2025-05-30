@@ -1,20 +1,16 @@
 import mongoose from "mongoose";
 
 const QuestionSchema=new mongoose.Schema({
-    text:{type:String,required:true},
-    options:[String],
-    correct_option_index:{type:Number,required:true}
+    title:{type:String,required:true},
+    zone:{type:String,required:true},
+    image:{type:String,required:true},
+    color:{type:String,required:true}
 });
 
-const SectionSchema=new mongoose.Schema({
-    title:{type:String,required:true},
-    slug:{type:String,required:true},
-    questions:[QuestionSchema]
-})
 
 const QuizSchema=new  mongoose.Schema({
     title:{type:String,required:true},
-    sections:[SectionSchema],
+    questions:[QuestionSchema],
     created_at:{type:Date,default:Date.now},
     updated_at:{type:Date,default:Date.now}
 })

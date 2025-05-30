@@ -8,9 +8,8 @@ class QuizDao {
     create=async (req,res)=>{
         try {
             const document= new this.model(req.body)
-            await document.save()
-
-            res.status(201).json(document)
+            const docres=await document.save()
+            res.status(201).json(docres)
         } catch (error) {
             res.status(500).json({message:error})
             
