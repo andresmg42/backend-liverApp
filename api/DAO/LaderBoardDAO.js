@@ -19,7 +19,7 @@ class LaderBoardDAO{
             for(let i=0; i<progresses.length;i++){
                 const progress=progresses[i];
                 const user= await User.findById(progress.user_id);
-                await Leaderboard.findOneAndUpdate(
+                await this.model.findOneAndUpdate(
                     {quiz_id:quiz_id, user_id:progress.user_id},
                     {
                         quiz_id:quiz_id,
@@ -36,6 +36,18 @@ class LaderBoardDAO{
             res.status(200).json({message:'Laderboard updated succesfully'})
         } catch (error) {
             res.status(500).json({message:`Error updating Leaderboard: ${error}`})
+            
+        }
+    }
+
+    getLeaderBoard= async (req,res)=>{
+        try {
+            const leaderboard= await this.model.find();
+
+            res.status(200).json(leaderboard);
+            
+        } catch (error) {
+            res.status(500).json({message:error})
             
         }
     }
