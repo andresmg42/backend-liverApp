@@ -18,7 +18,7 @@ class ProgressDAO {
       });
 
       if (oldProgress) {
-        oldProgress.total_score = progress.score;
+        oldProgress.total_score = progress.total_score;
         oldProgress.completed = progress.completed;
         oldProgress.last_updated = progress.last_updated;
         oldProgress.answers = progress.answers;

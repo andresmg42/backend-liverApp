@@ -9,8 +9,8 @@ class LaderBoardDAO{
 
     update_create= async  (req,res)=>{
         try {
-            const {quizId}=req.body;
-            const progresses= await QuizProgress.find({quiz_id:quizId}).sort({total_score:-1});
+            const {quiz_id,user_id}=req.body;
+            const progresses= await QuizProgress.find({quiz_id:quiz_id,user_id:user_id}).sort({total_score:-1});
             if(progresses.length===0){
                 res.status(404).json({message:'progresses not found'});
                 return;
@@ -20,9 +20,9 @@ class LaderBoardDAO{
                 const progress=progresses[i];
                 const user= await User.findById(progress.user_id);
                 await Leaderboard.findOneAndUpdate(
-                    {quiz_id:quizId, user_id:progress.user_id},
+                    {quiz_id:quiz_id, user_id:progress.user_id},
                     {
-                        quiz_id:quizId,
+                        quiz_id:quiz_id,
                         user_id:progress.user_id,
                         username:user.displayName,
                         score:progress.total_score,
