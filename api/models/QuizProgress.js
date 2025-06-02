@@ -14,6 +14,7 @@ const QuizProgressSchema= new mongoose.Schema({
     answers:[AnswerSchema],
     total_score:Number,
     completed:Boolean,
+    timer:Number,
     last_updated:{type:Date,default:Date.now}
 
 });

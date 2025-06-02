@@ -22,6 +22,7 @@ class ProgressDAO {
         oldProgress.completed = progress.completed;
         oldProgress.last_updated = progress.last_updated;
         oldProgress.answers = progress.answers;
+        oldProgress.timer=progress.timer;
         await oldProgress.save();
       } else {
         const newProgress = new QuizProgress(progress);

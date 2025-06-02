@@ -9,7 +9,7 @@ class LaderBoardDAO{
 
     update_create= async  (req,res)=>{
         try {
-            const {quiz_id,user_id}=req.body;
+            const {quiz_id,user_id,time}=req.body;
             const progress= await QuizProgress.findOne({quiz_id:quiz_id,user_id:user_id});
             if(!progress){
                 res.status(404).json({message:'progress not found'});
@@ -28,7 +28,8 @@ class LaderBoardDAO{
                         user_id:progress.user_id,
                         username:user.displayName,
                         score:progress.total_score,
-                        last_updated:new Date()
+                        last_updated:new Date(),
+                        time:time
                     },
                     {upsert:true,new:true}
                 );
