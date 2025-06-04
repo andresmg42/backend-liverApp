@@ -5,7 +5,8 @@ const LeaderboardSchema=new mongoose.Schema({
     user_id:{type:mongoose.Schema.Types.ObjectId,ref:'User'},
     username:String,
     score:Number,
-    time:Number,
+    time:String,
+    total_score:mongoose.Types.Double,
     last_updated:{type:Date,default:Date.now}
 })
 

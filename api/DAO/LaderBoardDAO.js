@@ -21,6 +21,16 @@ class LaderBoardDAO{
 
                 const user= await User.findById(progress.user_id);
 
+                function formatTime(time){
+                    const seconds=Math.floor(time/1000)
+                    const miliseconds=time%1000
+                    const minutes=Math.floor(seconds/60)
+                    const remainSeconds=seconds%60
+                    
+
+                    return `${minutes} m :${remainSeconds} s :${miliseconds} ms`
+                }
+
                 const newLeader=await this.model.findOneAndUpdate(
                     {quiz_id:quiz_id, user_id:progress.user_id},
                     {
@@ -28,8 +38,9 @@ class LaderBoardDAO{
                         user_id:progress.user_id,
                         username:user.displayName,
                         score:progress.total_score,
+                        total_score:progress.total_score*100 - progress.timer*0.0001 + Math.random(),
                         last_updated:new Date(),
-                        time:time
+                        time:formatTime(progress.timer)
                     },
                     {upsert:true,new:true}
                 );
@@ -44,7 +55,9 @@ class LaderBoardDAO{
 
     getLeaderBoard= async (req,res)=>{
         try {
-            const leaderboard= await this.model.find();
+            const leaderboard= await this.model.find().sort({total_score:-1});
+
+
 
             res.status(200).json(leaderboard);
             
