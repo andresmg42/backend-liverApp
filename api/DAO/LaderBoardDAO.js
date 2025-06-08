@@ -38,7 +38,7 @@ class LaderBoardDAO{
                         user_id:progress.user_id,
                         username:user.displayName,
                         score:progress.total_score,
-                        total_score:progress.total_score*100 - progress.timer*0.0001 + Math.random(),
+                        total_score:progress.total_score*100 - progress.timer*0.0001,
                         last_updated:new Date(),
                         time:formatTime(progress.timer)
                     },
