@@ -16,7 +16,13 @@ app.use(express.json());
 app.use(cors({
     origin:true,
     credentials:true
+
 }));
+
+app.use((req,res,next)=>{
+    res.setHeader('Cross-Origin-Opener-Policy','same-origin');
+    next();
+})
 
 app.use(route)
 app.use(quizroute)
