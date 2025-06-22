@@ -11,7 +11,9 @@ class UserDAO {
 
       await document.save()
 
-      res.status(201).json(document)
+      const data = await this.model.findOne({email:document.email})
+
+      res.status(201).json(data)
     } catch (error) {
       res
         .status(500)
@@ -39,6 +41,23 @@ class UserDAO {
       res.status(200).json(item)
     } catch (error) {
       res.status(500).json({ message: error.message })
+    }
+  }
+
+  getByEmail=async (req,res)=>{
+    try {
+      
+     const {email}=req.query
+      // console.log(email)
+      const item=await this.model.findOne({email:email})
+      if(!item) {
+        res.status(404).json({message:'user not found'});
+        return;
+      }
+      res.status(200).json(item)
+    } catch (error) {
+       res.status(500).json({ message: error.message })
+      
     }
   }
 

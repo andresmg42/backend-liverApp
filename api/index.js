@@ -3,7 +3,9 @@ import dotenv from  'dotenv'
 import cors from 'cors'
 import connectDB from './database/database.js'
 import route from './routes/routesUser.js'
-
+import quizroute from './routes/routesQuiz.js'
+import routerprogress from './routes/routesProgress.js'
+import routerlader from './routes/routesLaderboard.js'
 
 dotenv.config();
 
@@ -17,6 +19,9 @@ app.use(cors({
 }));
 
 app.use(route)
+app.use(quizroute)
+app.use(routerprogress)
+app.use(routerlader)
 
 app.get('/',(req,res)=>{
     res.send('server is runing')
